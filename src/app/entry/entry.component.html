@@ -1,16 +1,19 @@
-<div
-  (click)="setSelected(true)"
-  *ngIf="!selected"
-  [ngClass]="state.value.color"
->
+<div class="entryclass" (click)="setSelected(true)" *ngIf="!selected" [ngClass]="state.value.color">
   {{state.value.text}}
-  <app-dropdown (changed)="state.patchValue({color: $event})"></app-dropdown>
+
+  <div>
+
+    <button class="material-icons" style="color:rgb(48, 44, 44)" (click)="navigateToTargetRoute($event)"><span
+        class="material-symbols-outlined">
+        preview
+      </span></button>
+
+    <button class="material-icons" style="color:red" (click)="deleteEntry($event)">delete</button>
+    <!-- <i class="material-icons" style="color:red" (onclick)="deleteEntry()">delete</i> -->
+    <app-dropdown (changed)="state.patchValue({color: $event})"></app-dropdown>
+  </div>
 </div>
 
-<textarea
-  #textArea
-  *ngIf="selected"
-  [formControl]="state.get('text')"
-  (keypress)="checkEnter($event)"
-  (blur)="setSelected(false)"
-></textarea>
+<span class="message-text" #textArea *ngIf="selected" (keypress)="checkEnter($event)" (blur)="setSelected(false)">
+  {{state?.value.appointment?state.value.text:""}}
+</span>

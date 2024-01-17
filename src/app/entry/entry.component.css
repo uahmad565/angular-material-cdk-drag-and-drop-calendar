@@ -54,3 +54,14 @@ div {
   background-color: lightgreen;
   color: black;
 }
+
+
+.entryclass{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-text{
+  font-weight: bold;
+}

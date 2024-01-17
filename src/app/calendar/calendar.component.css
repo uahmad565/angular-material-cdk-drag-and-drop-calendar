@@ -45,3 +45,9 @@ div {
   top: 15px;
   font-size: 16px;
 }
+
+
+.unselectable {
+  color: #999;  /* Change text color to gray or any other suitable color */
+  cursor: not-allowed;  /* Change cursor to indicate non-interactivity */
+}

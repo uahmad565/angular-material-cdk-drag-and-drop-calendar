@@ -1,0 +1,28 @@
+
+<h1 mat-dialog-title>Add Event Detail</h1>
+<form [formGroup]="timeForm">
+  <div>
+    <label for="eventName">Event Name:</label>
+    <input type="text" id="eventName" formControlName="eventName" />
+    <!-- invalidEventName -->
+    <div *ngIf="timeForm.hasError('invalidEventName')">
+      <p class="error-message">Invalid Event Name</p>
+    </div>
+  </div>
+  <label for="fromTime">From Time:</label>
+  <input type="time" id="fromTime" formControlName="fromTime" />
+
+  <label for="toTime">To Time:</label>
+  <input type="time" id="toTime" formControlName="toTime" />
+
+  <div *ngIf="timeForm.hasError('invalidRange')">
+    <p class="error-message">
+      Invalid time range. 'To' time must be later than 'From' time.
+    </p>
+  </div>
+
+</form>
+
+<div mat-dialog-actions>
+  <button class="btn btn-secondary" [ngClass]="{disabled:!timeForm.valid}"  mat-button [mat-dialog-close]="timeForm.value" cdkFocusInitial>Ok</button>
+</div>

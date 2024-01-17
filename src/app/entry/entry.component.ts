@@ -1,5 +1,7 @@
 import { Component, Input, ViewChild, AfterViewInit, ElementRef, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Appointment } from '../custom-dataType/appointment';
 
 @Component({
   selector: 'app-entry',
@@ -10,10 +12,10 @@ export class EntryComponent implements AfterViewInit {
   @ViewChild('textArea') textArea: ElementRef<HTMLElement>;
   @Input() state: FormGroup;
   @Output() deleteMe = new EventEmitter<void>();
+  @Input() isTextareaReadOnly: boolean = false;
+  selected = true;
 
-  selected = false;
-
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngAfterViewInit() {
     // Cannot change DOM bindings in the same tick as the
@@ -29,6 +31,7 @@ export class EntryComponent implements AfterViewInit {
   }
 
   setSelected(val: boolean) {
+    // debugger;
     this.selected = val;
     if (val) {
       // *ngIf="selected" causes the textArea to appear in
@@ -39,6 +42,19 @@ export class EntryComponent implements AfterViewInit {
       // for this entry:
       this.deleteMe.next();
     }
+    console.log("textarea",this.state.value);
+    // console.log("state",this.state.value.text);
+  }
+
+  deleteEntry(event) {
+    event.stopPropagation();
+    console.log("delete called");
+    this.deleteMe.next();
+  }
+
+  navigateToTargetRoute(event) {
+    const appointment = this.state.value.appointment as Appointment;    
+    this.router.navigate(['/view-appointment',appointment], { relativeTo: this.route });
   }
 
 }

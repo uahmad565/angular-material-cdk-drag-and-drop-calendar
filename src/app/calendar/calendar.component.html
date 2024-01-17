@@ -1,9 +1,15 @@
-January 2019
-<span class="desc">
-  With Angular Material CDK Drag and Drop and VMWare Clarity |
-  <a href="https://adwiens.github.io/angular-material-cdk-drag-and-drop-playground">Angular Material CDK Drag and Drop Playground</a> |
-  <a href="https://github.com/adwiens/angular-material-cdk-drag-and-drop-calendar">Source</a>
-</span>
+<div class="d-flex">
+  <span class="calendar-style">
+    <input matInput [matDatepicker]="dp">
+    <mat-hint>MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp startView="year" panelClass="example-month-picker" (monthSelected)="setMonthAndYear($event, dp)"
+      startView="multi-year"></mat-datepicker>
+  </span>
+</div>
+<div>
+  Selected Month:{{monthYearDate}}
+</div>
 <table class="table table-compact">
   <tbody cdkDropListGroup>
     <tr>
@@ -16,23 +22,11 @@ January 2019
       <th>SAT</th>
     </tr>
     <tr *ngFor="let week of weeks">
-      <td
-        class="left"
-        *ngFor="let day of days"
-        cdkDropList
-        [cdkDropListData]="entryState[week][day]"
-        (click)="newEntry(day, week)"
-        (cdkDropListDropped)="drop($event)"
-      >
-        <div>{{dayLabels[week][day]}}</div>
-        <app-entry
-          cdkDrag
-          cdkDragHandle
-          *ngFor="let state of entryState[week][day]"
-          [state]="state"
-          (deleteMe)="deleteEntry(day, week, state)"
-          (click)="($event).stopPropagation()"
-        >DragItem</app-entry>
+      <td [ngClass]="{'unselectable':dayLabels[week][day]==0}" class="left" *ngFor="let day of days" cdkDropList
+        [cdkDropListData]="entryState[week][day]" (click)="newEntry(day, week)" (cdkDropListDropped)="drop($event)">
+        <div>{{dayLabels[week][day]==0?'':dayLabels[week][day]}}</div>
+        <app-entry cdkDrag cdkDragHandle *ngFor="let state of entryState[week][day]" [state]="state"
+          (deleteMe)="deleteEntry(day, week, state)" (click)="($event).stopPropagation()">DragItem</app-entry>
       </td>
     </tr>
   </tbody>
